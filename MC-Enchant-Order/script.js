@@ -156,44 +156,59 @@ function calculate(item_data){
 	
 	var best_pairwise_index = 0;
 	var best_pairwise_cost = 1000000;
-	var pairwise_result = [];
+	var pairwise_steps = [];
 	
 	//generated_permutations = [[0, 3, 6, 7, 5, 1, 2, 4]];
 	for(let i = 0; i < generated_permutations.length; i++){ //each combination
 		var c = [];
+		var steps = [];
 		generated_permutations[i].forEach(function(e){
 			c.push($.extend(true, {}, item_data[e]));
 		});
 		
 		//Mode 1: pairwise
 		var cost = 0;
-		console.log("==================================================");
+		//console.log("==================================================");
 		function pairwise(/*c*/){
-			console.log("--------------------------------------------------");
+			//console.log("--------------------------------------------------");
 			if(c.length == 1){
 				//add cost to result
 				if(cost < best_pairwise_cost){
 					best_pairwise_cost = cost;
 					best_pairwise_index = i;
-					pairwise_result = c[0];
+					steps.push([c[0]]);
+					pairwise_steps = steps;
 				}
 				return true;
 			}else{
-				//var next_combi = [];
+				var step = [];
 				for(let j = Math.floor(c.length/2) - 1; j >= 0; j--){ //number of pairs
 					var index = j*2;
-					console.log("Combine " + c[index].type + " (" + de(c[index].enchantments) + ") with " + c[index+1].type + " (" + de(c[index+1].enchantments) + ")");
+					//console.log("Combine " + c[index].type + " (" + de(c[index].enchantments) + ") with " + c[index+1].type + " (" + de(c[index+1].enchantments) + ")");
+					
+					var e_temp = [];
+					c[index+1].enchantments.forEach(function(e){
+						e_temp.push({"id": e.id, "level": e.level});
+						//e_temp.push({...e});
+					});
+					step.push({"type": c[index+1].type, "prev": c[index+1].prev, "enchantments": e_temp});
+					e_temp = [];
+					c[index].enchantments.forEach(function(e){
+						e_temp.push({"id": e.id, "level": e.level});
+						//e_temp.push({...e});
+					});
+					step.push({"type": c[index].type, "prev": c[index].prev, "enchantments": e_temp});
 					
 					//check for invalidity
 					if(c[index].type == "book" && c[index+1].type != "book"){
-						console.log("Invalid action, continue with next combination");
+						//console.log("Invalid action, continue with next combination");
 						return false;
 					}
 					
 					var val = 0;
 				
 					c[index+1].enchantments.forEach(function(e1){
-						console.log("-- Found " + ench_obj[e1.id].name + " " + e1.level + " on sacrifice")
+						//console.log("-- Found " + ench_obj[e1.id].name + " " + e1.level + " on sacrifice")
 						let level_on_target = e1.level;
 						c[index].enchantments.forEach(function(e0){
 							if(e1.id == e0.id){
@@ -201,35 +216,35 @@ function calculate(item_data){
 									//level_on_target = Math.max(level_on_target + 1, ench_obj[e1.id].max_level);
 									e0.level = Math.min(e1.level + 1, ench_obj[e1.id].max_level);
 									val += (e0.level * (c[index+1].type == "book" ? ench_obj[e1.id].multiplier_book : ench_obj[e1.id].multiplier_tool));
-									console.log("\tBoth have the same level, raise to level " + e0.level);
+									//console.log("\tBoth have the same level, raise to level " + e0.level);
 									//cost = cost + (level_on_target * (c[index+1].type == "book" ? ench_obj[e1.id].multiplier_book : ench_obj[e1.id].multiplier_tool));
 								}else if(e1.level > e0.level){
 									e0.level = e1.level;
-									console.log("\tRaise to sacrifice level " + e1.level);
+									//console.log("\tRaise to sacrifice level " + e1.level);
 									val += (e0.level * (c[index+1].type == "book" ? ench_obj[e1.id].multiplier_book : ench_obj[e1.id].multiplier_tool));
 									//cost = cost + (level_on_target * (c[index+1].type == "book" ? ench_obj[e1.id].multiplier_book : ench_obj[e1.id].multiplier_tool));
 								}else if(e1.level < e0.level){
 									//level_on_target = e0.level;
 									//cost = cost + (level_on_target * (c[index+1].type == "book" ? ench_obj[e1.id].multiplier_book : ench_obj[e1.id].multiplier_tool));
-									console.log("\tLevel is smaller, do nothing");
+									//console.log("\tLevel is smaller, do nothing");
 									val += (e0.level * (c[index+1].type == "book" ? ench_obj[e1.id].multiplier_book : ench_obj[e1.id].multiplier_tool));
 								}
 								level_on_target = 0;
 							}else if(ench_obj[e1.id].incompatible !== undefined && ench_obj[e1.id].incompatible == ench_obj[e0.id].incompatible){
 								cost += 1;
 								level_on_target = 0;
-								console.log("\tCost + 1 due to incompatibility with " + ench_obj[e0.id]);
+								//console.log("\tCost + 1 due to incompatibility with " + ench_obj[e0.id]);
 							}
 						});
 						if(level_on_target > 0){
-							console.log("\tAdd to target");
+							//console.log("\tAdd to target");
 							c[index].enchantments.push(e1);
 							val += (e1.level * (c[index+1].type == "book" ? ench_obj[e1.id].multiplier_book : ench_obj[e1.id].multiplier_tool));
 						}
 					});
 					
-					console.log("Result: " + c[index].type + " (" + de(c[index].enchantments) + ")");
-					console.log("Cost " + (Math.pow(2, c[index].prev) - 1) + " + " + val + " + " + (Math.pow(2, c[index+1].prev) - 1) + " (Penalty and enchantment value)");
+					//console.log("Result: " + c[index].type + " (" + de(c[index].enchantments) + ")");
+					//console.log("Cost " + (Math.pow(2, c[index].prev) - 1) + " + " + val + " + " + (Math.pow(2, c[index+1].prev) - 1) + " (Penalty and enchantment value)");
 					
 					cost += val + Math.pow(2, c[index].prev) + Math.pow(2, c[index+1].prev) - 2; //value of sacrifice + pwp of target and sacrifice
 					
@@ -237,6 +252,7 @@ function calculate(item_data){
 					
 					c.splice(index+1, 1);
 				}
+				steps.push(step.reverse());
 				pairwise();
 			}
 		}
@@ -244,24 +260,39 @@ function calculate(item_data){
 	}
 	
 	var content = "";
-	generated_permutations[best_pairwise_index].forEach(function(e){
+	/*generated_permutations[best_pairwise_index].forEach(function(e){
 		content = content + "<td><b>";
 		content = content + item_data[e].type + "</b>";
 		item_data[e].enchantments.forEach(function(e){
 			content += "<br>" + ench_obj[e.id].name + " " + e.level;
 		});
 		content += "</td>";
+	});*/
+	pairwise_steps.forEach(function(a, i){
+		var plus = false;
+		content += '<tr>';
+		a.forEach(function(b, j){
+			if(j > 0) content += '<td class="td-empty">' + (plus ? "+" : "&nbsp;") + "</td>";
+			plus = !plus;
+			content += '<td colspan="' + (Math.pow(2, i+1) - 1) + '"><b>' + b.type + '</b>';
+			b.enchantments.forEach(function(e){
+				content += "<br>" + ench_obj[e.id].name + " " + e.level;
+			});
+			content += "</td>";
+		});
+		
+		content += "</tr>";
 	});
-	$("#restbl tr").html(content);
+	$("#restbl").html(content);
 	
 	$("#cost").html(best_pairwise_cost);
 	
-	content = "<b>" + pairwise_result.type + "</b> (used " + pairwise_result.prev + "x)";
+	/*content = "<b>" + pairwise_result.type + "</b> (used " + pairwise_result.prev + "x)";
 	pairwise_result.enchantments.forEach(function(e){
 		content += "<br>" + ench_obj[e.id].name + " " + e.level;
 	});
 	
 	$("#res").html(content);
 	
-	console.log(pairwise_result);
+	console.log(pairwise_result);*/
 }
