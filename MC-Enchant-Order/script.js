@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var itemcount = 0;
 	var enchcount = [];
+	var wenchcount = 0;
 	$("#add-item").click(function(){
 		var id = itemcount++;
 		enchcount.push(0);
@@ -22,7 +23,6 @@ $(document).ready(function(){
 			<section></section>
 		</div>`);
 	});
-	$("#have").on("click", "button.delete", function(){ $(this).parent().remove(); });
 	$("#have").on("click", "button.add-ench", function(){
 		var itemid = $(this).parent().attr("item");
 		var id = enchcount[itemid]++;
@@ -30,19 +30,21 @@ $(document).ready(function(){
 		for(let k in ench_obj){
 			content += '<option value="'+k+'">'+ench_obj[k].name+'</option>';
 		}
-		content += '</select> Level: <input type="number" min="1" value="1" id="level-'+itemid+'-'+id+'"/> <button class="del-ench">X</button><br></div>';
+		content += '</select> Level: <input type="number" min="1" value="1" id="level-'+itemid+'-'+id+'"/> <button class="delete">X</button><br></div>';
 		$(this).siblings("section").append(content);
 	});
-	$("#have").on("click", "button.del-ench", function(){ $(this).parent().remove(); });
-	/*$("#add-ench-wanted").click(function(){
-		var id = $(".ench-wanted").length;
-		var content = '<div class="ench-wanted ench-wanted-'+id+'">Enchantment: <select id="sel-ench-wanted-'+id+'">';
-		enchantments.forEach(function(e){
-			content = content + '<option value="'+e[0]+'">'+e[1]+'</option>';
-		});
-		content = content + '</select> Level: <input type="number" min="1" value="1" id="level-wanted-'+id+'"/><br></div>';
+	//$("#have").on("click", "button.del-ench", function(){ $(this).parent().remove(); });
+	$("#add-ench-wanted").click(function(){
+		var id = wenchcount++;
+		var content = '<div class="ench-wanted">Enchantment: <select>';
+		for(let k in ench_obj){
+			content += '<option value="'+k+'">'+ench_obj[k].name+'</option>';
+		}
+		//content = content + '</select> Level: <input type="number" min="1" value="1" id="level-wanted-'+id+'"/><br></div>';
+		content = content + '</select> <button class="delete">X</button><br></div>';
 		$("#ench-wanted").append(content);
-	});*/
+	});
+	$("body").on("click", "button.delete", function(){ $(this).parent().remove(); });
 	$("#calc").click(function(){
 		var data = [];
 		
@@ -60,7 +62,25 @@ $(document).ready(function(){
 			});
 		});
 		
-		calculate(data);
+		var wanted = [];
+		$(".ench-wanted").each(function(){
+			var i = parseInt($(this).children("select").children("option:selected").val());
+			for(let j = 0; j < wanted.length; j++){
+				if(ench_obj[i].incompatible !== undefined && ench_obj[i].incompatible == ench_obj[wanted[j]].incompatible){
+					alert("You selected incompatible enchantments!");
+					return;
+				}
+			}
+			
+			wanted.push(i);
+		});
+		
+		if(wanted.includes(30) && (wanted.includes(31) || wanted.includes(32))){
+			alert("You selected incompatible trident enchantments!");
+			return;
+		}
+		
+		calculate(data, wanted);
 		return;
 	});
 });
@@ -86,7 +106,7 @@ function enchantment_value(item_data, logging){
 	return val;
 }
 
-function calculate(item_data){
+function calculate(item_data, wanted){
 	/*var item_data = [
 		{
 			"type": "boots",
@@ -206,6 +226,7 @@ function calculate(item_data){
 					}
 					
 					var val = 0;
+					var cancelled = false;
 				
 					c[index+1].enchantments.forEach(function(e1){
 						//console.log("-- Found " + ench_obj[e1.id].name + " " + e1.level + " on sacrifice")
@@ -231,9 +252,20 @@ function calculate(item_data){
 								}
 								level_on_target = 0;
 							}else if(ench_obj[e1.id].incompatible !== undefined && ench_obj[e1.id].incompatible == ench_obj[e0.id].incompatible){
+								if(wanted.includes(e1.id)){
+									//console.log("Wanted enchantment is in sacrifice slot, cancel this combination");
+									cancelled = true;
+								}
 								cost += 1;
 								level_on_target = 0;
 								//console.log("\tCost + 1 due to incompatibility with " + ench_obj[e0.id]);
+							}else if(e0.id == 30 && (e1.id == 31 || e1.id == 32)){ //trident incompatibility
+								if(wanted.includes(e1.id)){
+									//console.log("Wanted enchantment is in sacrifice slot, cancel this combination");
+									cancelled = true;
+								}
+								cost += 1;
+								level_on_target = 0;
 							}
 						});
 						if(level_on_target > 0){
@@ -242,6 +274,7 @@ function calculate(item_data){
 							val += (e1.level * (c[index+1].type == "book" ? ench_obj[e1.id].multiplier_book : ench_obj[e1.id].multiplier_tool));
 						}
 					});
+					if(cancelled) return false;
 					
 					//console.log("Result: " + c[index].type + " (" + de(c[index].enchantments) + ")");
 					//console.log("Cost " + (Math.pow(2, c[index].prev) - 1) + " + " + val + " + " + (Math.pow(2, c[index+1].prev) - 1) + " (Penalty and enchantment value)");
