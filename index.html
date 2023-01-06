@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MC Enchant Order</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+	<script src="data.js"></script>
+	<script src="script.js"></script>
+</head>
+<body>
+	<h3>What you have:</h3><section id="have">
+	<!--<div class="have" item="0">
+			Item Type: <select id="sel-item-0">
+				<option value="0">Enchanted Book</option>
+				<option value="1">Sword</option>
+				<option value="2">Bow</option>
+				<option value="3">Pickaxe</option>
+				<option value="5">Shovel</option>
+				<option value="6">Axe</option>
+				<option value="7">Helmet</option>
+				<option value="8">Chestplate</option>
+				<option value="9">Pants</option>
+				<option value="10" selected>Boots</option>
+			</select><br>
+			Previous uses: <input type="number" min="0" value="0" id="uses-0"><br>
+			<button class="add-ench" name="0">Add Enchantment</button>
+			<section id="ench-0"></section>
+		</div><div class="have" item="1">
+			Item Type: <select id="sel-item-1">
+				<option value="0" selected>Enchanted Book</option>
+				<option value="1">Sword</option>
+				<option value="2">Bow</option>
+				<option value="3">Pickaxe</option>
+				<option value="5">Shovel</option>
+				<option value="6">Axe</option>
+				<option value="7">Helmet</option>
+				<option value="8">Chestplate</option>
+				<option value="9">Pants</option>
+				<option value="10">Boots</option>
+			</select><br>
+			Previous uses: <input type="number" min="0" value="0" id="uses-1"><br>
+			<button class="add-ench" name="1">Add Enchantment</button>
+			<section id="ench-1"><div class="ench ench-1 ench-1-0" ench="0">Enchantment: <select id="sel-ench-1-0"><option value="0" selected>Protection</option><option value="1">Fire Protection</option><option value="2">Feather Falling</option><option value="3">Blast Protection</option><option value="4">Projectile Protection</option><option value="5">Thorns</option><option value="6">Respiration</option><option value="7">Depth Strider</option><option value="8">Aqua Affinity</option><option value="9">Sharpness</option><option value="10">Smite</option><option value="11">Bane of Arthropods</option><option value="12">Knockback</option><option value="13">FireAspect</option><option value="14">Looting</option><option value="15">Efficiency</option><option value="16">Silk Touch</option><option value="17">Unbreaking</option><option value="18">Fortune</option><option value="19">Power</option><option value="20">Punch</option><option value="21">Flame</option><option value="22">Infinity</option><option value="23"></option><option value="24"></option><option value="25">Frost Walker</option><option value="26">Mending</option><option value="27"></option><option value="28"></option><option value="29"></option><option value="30"></option><option value="31"></option><option value="32"></option><option value="33"></option><option value="34"></option><option value="35"></option><option value="36">Soul Speed</option><option value="37">Swift Sneak</option><option value="38">Sweeping Edge</option></select> Level: <input type="number" min="1" value="4" id="level-1-0"><br></div></section>
+		</div><div class="have" item="2">
+			Item Type: <select id="sel-item-2">
+				<option value="0" selected>Enchanted Book</option>
+				<option value="1">Sword</option>
+				<option value="2">Bow</option>
+				<option value="3">Pickaxe</option>
+				<option value="5">Shovel</option>
+				<option value="6">Axe</option>
+				<option value="7">Helmet</option>
+				<option value="8">Chestplate</option>
+				<option value="9">Pants</option>
+				<option value="10">Boots</option>
+			</select><br>
+			Previous uses: <input type="number" min="0" value="0" id="uses-2"><br>
+			<button class="add-ench" name="2">Add Enchantment</button>
+			<section id="ench-2"><div class="ench ench-2 ench-2-0" ench="0">Enchantment: <select id="sel-ench-2-0"><option value="0">Protection</option><option value="1">Fire Protection</option><option value="2">Feather Falling</option><option value="3">Blast Protection</option><option value="4">Projectile Protection</option><option value="5">Thorns</option><option value="6">Respiration</option><option value="7">Depth Strider</option><option value="8">Aqua Affinity</option><option value="9">Sharpness</option><option value="10">Smite</option><option value="11">Bane of Arthropods</option><option value="12">Knockback</option><option value="13">FireAspect</option><option value="14">Looting</option><option value="15">Efficiency</option><option value="16">Silk Touch</option><option value="17">Unbreaking</option><option value="18">Fortune</option><option value="19">Power</option><option value="20">Punch</option><option value="21">Flame</option><option value="22">Infinity</option><option value="23"></option><option value="24"></option><option value="25">Frost Walker</option><option value="26">Mending</option><option value="27"></option><option value="28"></option><option value="29"></option><option value="30"></option><option value="31"></option><option value="32"></option><option value="33"></option><option value="34"></option><option value="35"></option><option value="36" selected>Soul Speed</option><option value="37">Swift Sneak</option><option value="38">Sweeping Edge</option></select> Level: <input type="number" min="1" value="3" id="level-2-0"><br></div></section>
+		</div><div class="have" item="3">
+			Item Type: <select id="sel-item-3">
+				<option value="0" selected>Enchanted Book</option>
+				<option value="1">Sword</option>
+				<option value="2">Bow</option>
+				<option value="3">Pickaxe</option>
+				<option value="5">Shovel</option>
+				<option value="6">Axe</option>
+				<option value="7">Helmet</option>
+				<option value="8">Chestplate</option>
+				<option value="9">Pants</option>
+				<option value="10">Boots</option>
+			</select><br>
+			Previous uses: <input type="number" min="0" value="0" id="uses-3"><br>
+			<button class="add-ench" name="3">Add Enchantment</button>
+			<section id="ench-3"><div class="ench ench-3 ench-3-0" ench="0">Enchantment: <select id="sel-ench-3-0"><option value="0">Protection</option><option value="1">Fire Protection</option><option value="2">Feather Falling</option><option value="3">Blast Protection</option><option value="4">Projectile Protection</option><option value="5">Thorns</option><option value="6">Respiration</option><option value="7">Depth Strider</option><option value="8">Aqua Affinity</option><option value="9">Sharpness</option><option value="10">Smite</option><option value="11">Bane of Arthropods</option><option value="12">Knockback</option><option value="13">FireAspect</option><option value="14">Looting</option><option value="15">Efficiency</option><option value="16">Silk Touch</option><option value="17">Unbreaking</option><option value="18">Fortune</option><option value="19">Power</option><option value="20">Punch</option><option value="21">Flame</option><option value="22">Infinity</option><option value="23"></option><option value="24"></option><option value="25">Frost Walker</option><option value="26" selected>Mending</option><option value="27"></option><option value="28"></option><option value="29"></option><option value="30"></option><option value="31"></option><option value="32"></option><option value="33"></option><option value="34"></option><option value="35"></option><option value="36">Soul Speed</option><option value="37">Swift Sneak</option><option value="38">Sweeping Edge</option></select> Level: <input type="number" min="1" value="1" id="level-3-0"><br></div></section>
+		</div><div class="have" item="4">
+			Item Type: <select id="sel-item-4">
+				<option value="0" selected>Enchanted Book</option>
+				<option value="1">Sword</option>
+				<option value="2">Bow</option>
+				<option value="3">Pickaxe</option>
+				<option value="5">Shovel</option>
+				<option value="6">Axe</option>
+				<option value="7">Helmet</option>
+				<option value="8">Chestplate</option>
+				<option value="9">Pants</option>
+				<option value="10">Boots</option>
+			</select><br>
+			Previous uses: <input type="number" min="0" value="0" id="uses-4"><br>
+			<button class="add-ench" name="4">Add Enchantment</button>
+			<section id="ench-4"><div class="ench ench-4 ench-4-0" ench="0">Enchantment: <select id="sel-ench-4-0"><option value="0">Protection</option><option value="1">Fire Protection</option><option value="2">Feather Falling</option><option value="3">Blast Protection</option><option value="4">Projectile Protection</option><option value="5" selected>Thorns</option><option value="6">Respiration</option><option value="7">Depth Strider</option><option value="8">Aqua Affinity</option><option value="9">Sharpness</option><option value="10">Smite</option><option value="11">Bane of Arthropods</option><option value="12">Knockback</option><option value="13">FireAspect</option><option value="14">Looting</option><option value="15">Efficiency</option><option value="16">Silk Touch</option><option value="17">Unbreaking</option><option value="18">Fortune</option><option value="19">Power</option><option value="20">Punch</option><option value="21">Flame</option><option value="22">Infinity</option><option value="23"></option><option value="24"></option><option value="25">Frost Walker</option><option value="26">Mending</option><option value="27"></option><option value="28"></option><option value="29"></option><option value="30"></option><option value="31"></option><option value="32"></option><option value="33"></option><option value="34"></option><option value="35"></option><option value="36">Soul Speed</option><option value="37">Swift Sneak</option><option value="38">Sweeping Edge</option></select> Level: <input type="number" min="1" value="3" id="level-4-0"><br></div></section>
+		</div><div class="have" item="5">
+			Item Type: <select id="sel-item-5">
+				<option value="0" selected>Enchanted Book</option>
+				<option value="1">Sword</option>
+				<option value="2">Bow</option>
+				<option value="3">Pickaxe</option>
+				<option value="5">Shovel</option>
+				<option value="6">Axe</option>
+				<option value="7">Helmet</option>
+				<option value="8">Chestplate</option>
+				<option value="9">Pants</option>
+				<option value="10">Boots</option>
+			</select><br>
+			Previous uses: <input type="number" min="0" value="0" id="uses-5"><br>
+			<button class="add-ench" name="5">Add Enchantment</button>
+			<section id="ench-5"><div class="ench ench-5 ench-5-0" ench="0">Enchantment: <select id="sel-ench-5-0"><option value="0">Protection</option><option value="1">Fire Protection</option><option value="2">Feather Falling</option><option value="3">Blast Protection</option><option value="4">Projectile Protection</option><option value="5">Thorns</option><option value="6">Respiration</option><option value="7" selected>Depth Strider</option><option value="8">Aqua Affinity</option><option value="9">Sharpness</option><option value="10">Smite</option><option value="11">Bane of Arthropods</option><option value="12">Knockback</option><option value="13">FireAspect</option><option value="14">Looting</option><option value="15">Efficiency</option><option value="16">Silk Touch</option><option value="17">Unbreaking</option><option value="18">Fortune</option><option value="19">Power</option><option value="20">Punch</option><option value="21">Flame</option><option value="22">Infinity</option><option value="23"></option><option value="24"></option><option value="25">Frost Walker</option><option value="26">Mending</option><option value="27"></option><option value="28"></option><option value="29"></option><option value="30"></option><option value="31"></option><option value="32"></option><option value="33"></option><option value="34"></option><option value="35"></option><option value="36">Soul Speed</option><option value="37">Swift Sneak</option><option value="38">Sweeping Edge</option></select> Level: <input type="number" min="1" value="3" id="level-5-0"><br></div></section>
+		</div><div class="have" item="6">
+			Item Type: <select id="sel-item-6">
+				<option value="0" selected>Enchanted Book</option>
+				<option value="1">Sword</option>
+				<option value="2">Bow</option>
+				<option value="3">Pickaxe</option>
+				<option value="5">Shovel</option>
+				<option value="6">Axe</option>
+				<option value="7">Helmet</option>
+				<option value="8">Chestplate</option>
+				<option value="9">Pants</option>
+				<option value="10">Boots</option>
+			</select><br>
+			Previous uses: <input type="number" min="0" value="0" id="uses-6"><br>
+			<button class="add-ench" name="6">Add Enchantment</button>
+			<section id="ench-6"><div class="ench ench-6 ench-6-0" ench="0">Enchantment: <select id="sel-ench-6-0"><option value="0">Protection</option><option value="1">Fire Protection</option><option value="2" selected>Feather Falling</option><option value="3">Blast Protection</option><option value="4">Projectile Protection</option><option value="5">Thorns</option><option value="6">Respiration</option><option value="7">Depth Strider</option><option value="8">Aqua Affinity</option><option value="9">Sharpness</option><option value="10">Smite</option><option value="11">Bane of Arthropods</option><option value="12">Knockback</option><option value="13">FireAspect</option><option value="14">Looting</option><option value="15">Efficiency</option><option value="16">Silk Touch</option><option value="17">Unbreaking</option><option value="18">Fortune</option><option value="19">Power</option><option value="20">Punch</option><option value="21">Flame</option><option value="22">Infinity</option><option value="23"></option><option value="24"></option><option value="25">Frost Walker</option><option value="26">Mending</option><option value="27"></option><option value="28"></option><option value="29"></option><option value="30"></option><option value="31"></option><option value="32"></option><option value="33"></option><option value="34"></option><option value="35"></option><option value="36">Soul Speed</option><option value="37">Swift Sneak</option><option value="38">Sweeping Edge</option></select> Level: <input type="number" min="1" value="4" id="level-6-0"><br></div></section>
+		</div><div class="have" item="7">
+			Item Type: <select id="sel-item-7">
+				<option value="0" selected>Enchanted Book</option>
+				<option value="1">Sword</option>
+				<option value="2">Bow</option>
+				<option value="3">Pickaxe</option>
+				<option value="5">Shovel</option>
+				<option value="6">Axe</option>
+				<option value="7">Helmet</option>
+				<option value="8">Chestplate</option>
+				<option value="9">Pants</option>
+				<option value="10">Boots</option>
+			</select><br>
+			Previous uses: <input type="number" min="0" value="0" id="uses-7"><br>
+			<button class="add-ench" name="7">Add Enchantment</button>
+			<section id="ench-7"><div class="ench ench-7 ench-7-0" ench="0">Enchantment: <select id="sel-ench-7-0"><option value="0">Protection</option><option value="1">Fire Protection</option><option value="2">Feather Falling</option><option value="3">Blast Protection</option><option value="4">Projectile Protection</option><option value="5">Thorns</option><option value="6">Respiration</option><option value="7">Depth Strider</option><option value="8">Aqua Affinity</option><option value="9">Sharpness</option><option value="10">Smite</option><option value="11">Bane of Arthropods</option><option value="12">Knockback</option><option value="13">FireAspect</option><option value="14">Looting</option><option value="15">Efficiency</option><option value="16">Silk Touch</option><option value="17" selected>Unbreaking</option><option value="18">Fortune</option><option value="19">Power</option><option value="20">Punch</option><option value="21">Flame</option><option value="22">Infinity</option><option value="23"></option><option value="24"></option><option value="25">Frost Walker</option><option value="26">Mending</option><option value="27"></option><option value="28"></option><option value="29"></option><option value="30"></option><option value="31"></option><option value="32"></option><option value="33"></option><option value="34"></option><option value="35"></option><option value="36">Soul Speed</option><option value="37">Swift Sneak</option><option value="38">Sweeping Edge</option></select> Level: <input type="number" min="1" value="3" id="level-7-0"><br></div></section>
+		</div>-->
+		<button id="add-item">Add Item</button>
+	</section>
+	<!--<hr>
+	<section id="want"><h3>What you want:</h3>
+		Item Type: <select class="sel-item-`+id+`">
+			<option value="0">Enchanted Book</option>
+			<option value="1">Sword</option>
+			<option value="2">Bow</option>
+			<option value="3">Pickaxe</option>
+			<option value="5">Shovel</option>
+			<option value="6">Axe</option>
+			<option value="7">Helmet</option>
+			<option value="8">Chestplate</option>
+			<option value="9">Pants</option>
+			<option value="10">Boots</option>
+		</select><br>
+		<button id="add-ench-wanted">Add Enchantment</button>
+		<section id="ench-wanted"></section>
+	</section>-->
+	<hr>
+	<button id="calc">Calculate</button><br><br>
+	Cost: <span id="cost">0</span><br><br>
+	<u>Resulting item:</u><br><span id="res"></span><br><br>
+	<table id="restbl"><tr></tr></table>
+</body>
+</html>
