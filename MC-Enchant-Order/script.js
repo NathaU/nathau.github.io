@@ -187,23 +187,25 @@ function calculate(item_data, wanted){
 		});
 		
 		//Mode 1: pairwise
-		var cost = 0;
+		var total_cost = 0;
 		//console.log("==================================================");
 		function pairwise(/*c*/){
 			//console.log("--------------------------------------------------");
 			if(c.length == 1){
 				//add cost to result
-				if(cost < best_pairwise_cost){
-					best_pairwise_cost = cost;
+				if(total_cost < best_pairwise_cost){
+					best_pairwise_cost = total_cost;
 					best_pairwise_index = i;
-					steps.push([c[0]]);
+					steps.push([{...c[0], "cost": c[0].next_cost}]);
 					pairwise_steps = steps;
 				}
 				return true;
 			}else{
 				var step = [];
+				var next_cost = [0, 0, 0];
 				for(let j = Math.floor(c.length/2) - 1; j >= 0; j--){ //number of pairs
 					var index = j*2;
+					var cost = 0;
 					//console.log("Combine " + c[index].type + " (" + de(c[index].enchantments) + ") with " + c[index+1].type + " (" + de(c[index+1].enchantments) + ")");
 					
 					var e_temp = [];
@@ -211,13 +213,13 @@ function calculate(item_data, wanted){
 						e_temp.push({"id": e.id, "level": e.level});
 						//e_temp.push({...e});
 					});
-					step.push({"type": c[index+1].type, "prev": c[index+1].prev, "enchantments": e_temp});
+					step.push({"type": c[index+1].type, "prev": c[index+1].prev, "enchantments": e_temp, "cost": c[index+1].next_cost !== undefined ? c[index+1].next_cost : [0, 0, 0]});
 					e_temp = [];
 					c[index].enchantments.forEach(function(e){
 						e_temp.push({"id": e.id, "level": e.level});
 						//e_temp.push({...e});
 					});
-					step.push({"type": c[index].type, "prev": c[index].prev, "enchantments": e_temp});
+					step.push({"type": c[index].type, "prev": c[index].prev, "enchantments": e_temp, "cost": c[index].next_cost !== undefined ? c[index].next_cost : [0, 0, 0]});
 					
 					//check for invalidity
 					if(c[index].type == "book" && c[index+1].type != "book"){
@@ -278,8 +280,11 @@ function calculate(item_data, wanted){
 					
 					//console.log("Result: " + c[index].type + " (" + de(c[index].enchantments) + ")");
 					//console.log("Cost " + (Math.pow(2, c[index].prev) - 1) + " + " + val + " + " + (Math.pow(2, c[index+1].prev) - 1) + " (Penalty and enchantment value)");
+					cost += val;
+					next_cost = [Math.pow(2, c[index].prev) - 1, cost, Math.pow(2, c[index+1].prev) - 1];
+					c[index]["next_cost"] = next_cost;
 					
-					cost += val + Math.pow(2, c[index].prev) + Math.pow(2, c[index+1].prev) - 2; //value of sacrifice + pwp of target and sacrifice
+					total_cost += cost + Math.pow(2, c[index].prev) + Math.pow(2, c[index+1].prev) - 2; //value of sacrifice + pwp of target and sacrifice
 					
 					c[index].prev = Math.max(c[index].prev, c[index+1].prev) + 1;
 					
@@ -307,11 +312,13 @@ function calculate(item_data, wanted){
 		a.forEach(function(b, j){
 			if(j > 0) content += '<td class="td-empty">' + (plus ? "+" : "&nbsp;") + "</td>";
 			plus = !plus;
-			content += '<td colspan="' + (Math.pow(2, i+1) - 1) + '"><b>' + b.type + '</b>';
+			content += '<td colspan="' + (Math.pow(2, i+1) - 1) + '">';
+			if(i > 0) content += '<i>Cost: ' + b.cost[0] + ' / ' + b.cost[1] + ' + ' + b.cost[2] + '</i><br>';
+			content += '<b>' + b.type + '</b>';
 			b.enchantments.forEach(function(e){
 				content += "<br>" + ench_obj[e.id].name + " " + e.level;
 			});
-			content += "</td>";
+			content += "<br><i>Value: " + enchantment_value(b, false) + ", PWP: " + (Math.pow(2, b.prev)-1) + "</i></td>";
 		});
 		
 		content += "</tr>";
